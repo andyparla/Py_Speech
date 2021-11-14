@@ -25,5 +25,6 @@ def hear_me():
             return
 
 if __name__ == "__main__":
-    speak("Probando probando")
+    print("Empieza la prueba")
+    speak("Probando probando probando")
     hear_me()
