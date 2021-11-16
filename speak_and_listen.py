@@ -9,22 +9,22 @@ class PySpeech:
         self.engine.setProperty("voice", "spanish")
         self.r = sr.Recognizer()
 
-
-    def speak(self, text):
+    def reproduce(self, text):
         self.engine.say(text)
         self.engine.runAndWait()
 
-    def hear_me(self):
+    def transcribe(self):
         text = None
-        with sr.Microphone() as source:
+        # device, sampRate, chunk
+        with sr.Microphone(0, 48000, 4096) as source:
             try:
-                self.r.adjust_for_ambient_noise(source, 1)
+                #self.r.adjust_for_ambient_noise(source, 1)
                 print("Escuchando...")
                 audio = self.r.listen(source)
                 text = self.r.recognize_google(audio, language="es-ES")
                 print(f"He entendido: {text}")
             except sr.UnknownValueError as error:
-                print(f"Lo siento pero no te he escuchado: {error}")
+                print(f"Lo siento pero no te he escuchado: {error.__cause__}")
             except KeyboardInterrupt:
                 print(f"se ha cancelado el reconocimiento de voz")
         return text
@@ -33,4 +33,4 @@ class PySpeech:
 if __name__ == "__main__":
     speech = PySpeech()
     """speech.speak("Te escucho")"""
-    speech.hear_me()
+    speech.transcribe()
